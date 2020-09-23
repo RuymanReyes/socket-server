@@ -5,6 +5,7 @@ import socketIO from 'socket.io';
 import http from 'http';
 
 import * as socket from '../sockets/socket';
+import { configurarUsuario } from '../sockets/socket';
 
 
 
@@ -41,13 +42,23 @@ export default class Server {
 
         this.io.on('connection', cliente => {
 
-            console.log('Cliente conectado');
+            // console.log('Cliente conectado');
+            console.log( cliente.id )
+
+            // conectar cliente 
+            socket.conectarCliente( cliente );
+
+            // configurar usuario
+            socket.configurarUsuario( cliente, this.io );
 
             // Mensajes
             socket.mensaje( cliente, this.io );
+            
 
             // Desconectar
-            socket.desconectar( cliente );         
+            socket.desconectar( cliente );      
+            
+
 
         });
 
